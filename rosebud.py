@@ -3,6 +3,8 @@ import dlib
 import numpy as np
 
 
+pt_diff = 204-149
+
 image = cv.imread("profile.jpeg")
 notepad = "rose_points.txt"
 landmark_detector = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -23,6 +25,12 @@ crown = cv.imread("rose_crown.png", cv.IMREAD_UNCHANGED)
 
 faces = face_detector(image, 0)
 landmarks = landmark_detector(image, faces[0])
+
+landmark_pts = [(p.x, p.y) for p in landmarks.parts()]
+bottom_left = landmark_pts[0]
+bottom_right = landmark_pts[16]
+top_left = (bottom_left[0], bottom_left[1] - pt_diff)
+top_right = (bottom_right[0], bottom_right[1] - pt_diff)
 
 def show(image):
 	cv.imshow('im', image)
