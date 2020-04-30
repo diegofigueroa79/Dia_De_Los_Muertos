@@ -22,6 +22,12 @@ def get_saved_pts(notepad):
 crown_points = get_saved_pts(notepad)
 
 crown = cv.imread("rose_crown.png", cv.IMREAD_UNCHANGED)
+b,g,r,a = cv.split(crown)
+crown = cv.merge((b,g,r))
+crown = np.float32(crown)/255
+
+alpha = cv.merge((a,a,a))
+alpha = np.float32(alpha)
 
 faces = face_detector(image, 0)
 landmarks = landmark_detector(image, faces[0])
