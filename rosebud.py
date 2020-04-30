@@ -1,6 +1,7 @@
 import cv2 as cv
 import dlib
 import numpy as np
+import warpTriangles
 
 
 pt_diff = 204-149
@@ -9,6 +10,12 @@ image = cv.imread("profile.jpeg")
 notepad = "rose_points.txt"
 landmark_detector = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 face_detector = dlib.get_frontal_face_detector()
+
+
+def show(image):
+	cv.imshow('im', image)
+	cv.waitKey(0)
+	cv.destroyAllWindows()
 
 def get_saved_pts(notepad):
 	crown_points = []
@@ -42,15 +49,23 @@ top_right = (bottom_right[0], bottom_right[1] - pt_diff)
 crown_triangles = [[crown_points[0], crown_points[2], crown_points[3]], [crown_points[0], crown_points[1], crown_points[3]]]
 face_triangles = [[bottom_left, top_left, top_right], [bottom_left, bottom_right, top_right]]
 
-profile_image = np.float32(profile)/255
-mask_warped = np.float32(profile.shape)
-alpha_warped = np.float32(profile.shape)
+profile_image = np.float32(image)/255
+mask_warped = np.zeros(image.shape)
+alpha_warped = np.zeros(image.shape)
 
+warpTriangles.warp(crown, mask_warped, crown_triangles[0], face_triangles[0])
+warpTriangles.warp(crown, mask_warped, crown_triangles[1], face_triangles[1])
+warpTriangles.warp(alpha, alpha_warped, crown_triangles[0], face_triangles[0])
+warpTriangles.warp(alpha, alpha_warped, crown_triangles[1], face_triangles[1])
 
-def show(image):
-	cv.imshow('im', image)
-	cv.waitKey(0)
-	cv.destroyAllWindows()
+mask1 = alpha_warped/255
+mask2 = 1.0 - mask1
+
+temp1 = np.multiply(profile_image, mask2)
+temp2 = np.multiply(mask_warped, mask1)
+
+show(temp1 + temp2)
+
 	
 
 
