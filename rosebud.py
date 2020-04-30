@@ -36,6 +36,10 @@ top_right = (bottom_right[0], bottom_right[1] - pt_diff)
 crown_triangles = [[crown_points[0], crown_points[2], crown_points[3]], [crown_points[0], crown_points[1], crown_points[3]]]
 face_triangles = [[bottom_left, top_left, top_right], [bottom_left, bottom_right, top_right]]
 
+profile_image = np.float32(profile)/255
+mask_warped = np.float32(profile.shape)
+alpha_warped = np.float32(profile.shape)
+
 
 def show(image):
 	cv.imshow('im', image)
