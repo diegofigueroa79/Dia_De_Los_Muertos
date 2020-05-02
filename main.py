@@ -15,10 +15,13 @@ if __name__ == '__main__':
 	detector = dlib.get_frontal_face_detector()
 	predictor = dlib.shape_predictor(landmark_path)
 	
+	mask_path = "muertos_mask.png"
+	mask_pts_path = "muertos_points.txt"
+	
 	# get mask image and alpha image
 	# load mask landmark points from text file
-	mask, alpha = image_preprocess.imgPreprocess()
-	mask_pts = image_preprocess.pointsPreprocess()
+	mask, alpha = image_preprocess.imgPreprocess(mask_path)
+	mask_pts = image_preprocess.pointsPreprocess(mask_pts_path)
 	
 	size = mask.shape
 	rect = (0, 0, size[1], size[0])

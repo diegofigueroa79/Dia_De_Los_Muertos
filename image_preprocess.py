@@ -2,10 +2,9 @@ import cv2 as cv
 import numpy as np
 
 
-def imgPreprocess():
+def imgPreprocess(image_path):
 	
-	mask_path = "muertos_mask.png"
-	mask = cv.imread(mask_path, cv.IMREAD_UNCHANGED)
+	mask = cv.imread(image_path, cv.IMREAD_UNCHANGED)
 	
 	# split mask into color and alpha channels
 	b,g,r,a = cv.split(mask)
@@ -18,12 +17,10 @@ def imgPreprocess():
 	return (mask, alpha)
 
 
-def pointsPreprocess():
-	
-	mask_pts_path = "muertos_points.txt"
+def pointsPreprocess(pts_path):
 	
 	mask_pts = []
-	lines = np.loadtxt(mask_pts_path, dtype='uint16')
+	lines = np.loadtxt(pts_path, dtype='uint16')
 	
 	for p in lines:
 		mask_pts.append((p[0], p[1]))
