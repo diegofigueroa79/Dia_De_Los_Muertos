@@ -89,6 +89,12 @@ if __name__ == '__main__':
 				warpTriangles.warp(mask, maskWarped, t1, t2)
 				warpTriangles.warp(alpha, alphaWarped, t1, t2)
 			
+			# warp crown triangles onto mask, and alpha
+			warpTriangles.warp(crown, maskWarped, crown_triangles[0], forehead_triangles[0])
+			warpTriangles.warp(crown, maskWarped, crown_triangles[1], forehead_triangles[1])
+			warpTriangles.warp(crown_alpha, alphaWarped, crown_triangles[0], forehead_triangles[0])
+			warpTriangles.warp(crown_alpha, alphaWarped, crown_triangles[1], forehead_triangles[1])
+			
 			mask1 = alphaWarped/255
 			mask2 = 1.0 - mask1
 			
