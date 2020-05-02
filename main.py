@@ -7,6 +7,7 @@ import warpTriangles
 
 SKIP_FRAMES =3
 FRAME_COUNT = 0
+CROWN_HT = 55
 
 if __name__ == '__main__':
 	
@@ -35,6 +36,16 @@ if __name__ == '__main__':
 	# get array of indices of delauny triangles
 	# from mask landmark points
 	delaunyTris = triangle_script.delaunyTriangles(rect, mask_pts)
+	
+	# calculate crown and profile_crown triangles
+	bottom_left = landmark_pts[0]
+	bottom_right = landmark_pts[16]
+	top_left = (bottom_left[0], bottom_left[1] - CROWN_HT)
+	top_right = (bottom_right[0], bottom_right[1] - CROWN_HT)
+
+
+	crown_triangles = [[crown_points[0], crown_points[2], crown_points[3]], [crown_points[0], crown_points[1], crown_points[3]]]
+	face_triangles = [[bottom_left, top_left, top_right], [bottom_left, bottom_right, top_right]]
 	
 	#load webcam
 	cap = cv.VideoCapture(0)
