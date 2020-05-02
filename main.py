@@ -5,7 +5,7 @@ import image_preprocess
 import triangle_script
 import warpTriangles
 
-SKIP_FRAMES = 3
+SKIP_FRAMES =3
 FRAME_COUNT = 0
 
 if __name__ == '__main__':

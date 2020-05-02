@@ -4,7 +4,7 @@ import numpy as np
 
 def imgPreprocess():
 	
-	mask_path = "./Day_of_the_Dead/muertos_mask.png"
+	mask_path = "muertos_mask.png"
 	mask = cv.imread(mask_path, cv.IMREAD_UNCHANGED)
 	
 	# split mask into color and alpha channels
@@ -20,7 +20,7 @@ def imgPreprocess():
 
 def pointsPreprocess():
 	
-	mask_pts_path = "./Day_of_the_Dead/muertos_points.txt"
+	mask_pts_path = "muertos_points.txt"
 	
 	mask_pts = []
 	lines = np.loadtxt(mask_pts_path, dtype='uint16')
