@@ -18,10 +18,16 @@ if __name__ == '__main__':
 	mask_path = "muertos_mask.png"
 	mask_pts_path = "muertos_points.txt"
 	
+	crown_path = "rose_crown.png"
+	crown_pts_path = "rose_points.txt"
+	
 	# get mask image and alpha image
 	# load mask landmark points from text file
 	mask, alpha = image_preprocess.imgPreprocess(mask_path)
 	mask_pts = image_preprocess.pointsPreprocess(mask_pts_path)
+	
+	crown, crown_alpha = image_preprocess.imgPreprocess(crown_path)
+	crown_pts = image_preprocess.pointsPreprocess(crown_pts_path)
 	
 	size = mask.shape
 	rect = (0, 0, size[1], size[0])
