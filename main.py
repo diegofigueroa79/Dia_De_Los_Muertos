@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	mask_pts = image_preprocess.pointsPreprocess(mask_pts_path)
 	
 	crown, crown_alpha = image_preprocess.imgPreprocess(crown_path)
-	crown_pts = image_preprocess.pointsPreprocess(crown_pts_path)
+	crown_points = image_preprocess.pointsPreprocess(crown_pts_path)
 	
 	size = mask.shape
 	rect = (0, 0, size[1], size[0])
@@ -37,15 +37,9 @@ if __name__ == '__main__':
 	# from mask landmark points
 	delaunyTris = triangle_script.delaunyTriangles(rect, mask_pts)
 	
-	# calculate crown and profile_crown triangles
-	bottom_left = landmark_pts[0]
-	bottom_right = landmark_pts[16]
-	top_left = (bottom_left[0], bottom_left[1] - CROWN_HT)
-	top_right = (bottom_right[0], bottom_right[1] - CROWN_HT)
-
-
+	# calculate crown triangles
 	crown_triangles = [[crown_points[0], crown_points[2], crown_points[3]], [crown_points[0], crown_points[1], crown_points[3]]]
-	face_triangles = [[bottom_left, top_left, top_right], [bottom_left, bottom_right, top_right]]
+	
 	
 	#load webcam
 	cap = cv.VideoCapture(0)
@@ -75,6 +69,14 @@ if __name__ == '__main__':
 		if faces:
 			landmarks = predictor(gray, faces[0])
 			landmark_points = [(p.x, p.y) for p in landmarks.parts()]
+			
+			# Calculate forehead triangles
+			bottom_left = landmark_points[0]
+			bottom_right = landmark_points[16]
+			top_left = (bottom_left[0], bottom_left[1] - CROWN_HT)
+			top_right = (bottom_right[0], bottom_right[1] - CROWN_HT)
+			
+			forehead_triangles = [[bottom_left, top_left, top_right], [bottom_left, bottom_right, top_right]]
 			
 			for i in range(0, len(delaunyTris)):
 				t1 = []
