@@ -71,8 +71,8 @@ if __name__ == '__main__':
 			landmark_points = [(p.x, p.y) for p in landmarks.parts()]
 			
 			# Calculate forehead triangles
-			bottom_left = landmark_points[0]
-			bottom_right = landmark_points[16]
+			bottom_left = (landmark_points[0][0], landmark_points[0][1] - 20)
+			bottom_right = (landmark_points[16][0], landmark_points[16][1] - 20)
 			top_left = (bottom_left[0], bottom_left[1] - CROWN_HT)
 			top_right = (bottom_right[0], bottom_right[1] - CROWN_HT)
 			
