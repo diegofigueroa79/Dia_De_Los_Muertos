@@ -71,8 +71,8 @@ if __name__ == '__main__':
 			landmark_points = [(p.x, p.y) for p in landmarks.parts()]
 			
 			# Calculate forehead triangles
-			bottom_left = (landmark_points[0][0], landmark_points[0][1] - 20)
-			bottom_right = (landmark_points[16][0], landmark_points[16][1] - 20)
+			bottom_left = (landmark_points[0][0], landmark_points[0][1] - 10)
+			bottom_right = (landmark_points[16][0], landmark_points[16][1] - 10)
 			top_left = (bottom_left[0], bottom_left[1] - CROWN_HT)
 			top_right = (bottom_right[0], bottom_right[1] - CROWN_HT)
 			
@@ -89,11 +89,6 @@ if __name__ == '__main__':
 				warpTriangles.warp(mask, maskWarped, t1, t2)
 				warpTriangles.warp(alpha, alphaWarped, t1, t2)
 			
-			# warp crown triangles onto mask, and alpha
-			warpTriangles.warp(crown, maskWarped, crown_triangles[0], forehead_triangles[0])
-			warpTriangles.warp(crown, maskWarped, crown_triangles[1], forehead_triangles[1])
-			warpTriangles.warp(crown_alpha, alphaWarped, crown_triangles[0], forehead_triangles[0])
-			warpTriangles.warp(crown_alpha, alphaWarped, crown_triangles[1], forehead_triangles[1])
 			
 			mask1 = alphaWarped/255
 			mask2 = 1.0 - mask1
@@ -102,6 +97,24 @@ if __name__ == '__main__':
 			temp2 = np.multiply(maskWarped, mask1)
 			
 			frame = temp1 + temp2
+			
+			# crown warping
+			crown_warped = np.zeros(frame.shape)
+			crown_alpha_warped = np.zeros(frame.shape)
+			
+			warpTriangles.warp(crown, crown_warped, crown_triangles[0], forehead_triangles[0])
+			warpTriangles.warp(crown, crown_warped, crown_triangles[1], forehead_triangles[1])
+			warpTriangles.warp(crown_alpha, crown_alpha_warped, crown_triangles[0], forehead_triangles[0])
+			warpTriangles.warp(crown_alpha, crown_alpha_warped, crown_triangles[1], forehead_triangles[1])
+			
+			crown_mask1 = crown_alpha_warped/255
+			crown_mask2 = 1.0 - crown_mask1
+			
+			crown_temp1 = np.multiply(frame, crown_mask2)
+			crown_temp2 = np.multiply(crown_warped, crown_mask1)
+			
+			frame = crown_temp1 + crown_temp2
+			
 			
 		#Display the frame
 		cv.imshow("frame", frame)
